@@ -15,29 +15,41 @@ const Overlay = ({ onClose }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    const field1 = e.target.field1.value;
-    const field2 = e.target.field2.value;
-    const field3 = e.target.field3.value;
-    const field4 = e.target.field4.value;
-    const field5 = e.target.field5.value;
-    const field6 = e.target.field6.value;
-    const field7 = e.target.field7.value;
+
+    let formData = {};
+    if (isAdvancedConfig) {
+      formData = {
+        field1: e.target.field1.value,
+        field2: e.target.field2.value,
+        field3: e.target.field3.value,
+        field4: e.target.field4.value,
+        field5: e.target.field5.value,
+        field6: e.target.field6.value,
+        field7: e.target.field7.value,
+      };
+    } else {
+      formData = {
+        field1: e.target.field1.value,
+        field2: e.target.field2.value,
+        field3: e.target.field3.value,
+        field4: e.target.field4.value,
+      };
+    }
 
     axios
-      .post("https://jsonplaceholder.typicode.com/posts", {
-        field1,
-        field2,
-        field3,
-        field4,
-        field5,
-        field6,
-        field7,
-      })
+      .post("https://jsonplaceholder.typicode.com/posts", formData)
       .then((response) => {
         console.log(response);
+        e.target.field1.value = "";
+        e.target.field2.value = "";
+        e.target.field3.value = "";
+        e.target.field4.value = "";
+        e.target.field5.value = "";
+        e.target.field6.value = "";
+        e.target.field7.value = "";
       })
       .catch((error) => {
-        console.log(error);
+        console.log("No response received from server for some input fields");
       });
   };
 
@@ -107,7 +119,7 @@ const Overlay = ({ onClose }) => {
             Advanced Configurations
             <i onClick={handleOpenAdvancedConfig}>
               <i
-                className={`bi bi-chevron-${isAdvancedConfig ? "up" : "down"}`}
+                className= {`bi bi-chevron-${isAdvancedConfig ? "up" : "down"}`}
               ></i>
             </i>
           </h4>
